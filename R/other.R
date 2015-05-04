@@ -5,10 +5,9 @@
 #' 
 #' Using a negation of %in% operator in the standard format produces less readable code. More natural way of using negation in this context would be to prepend 'in' with standard negation symbol, '!', which then results in using shorter and more readable 'x %!in% y' instead of '!(x %in% y)'.
 #'
-#' @param x A numerical, logical or a character vector whose elements will be checked whether they are also present in vector \code{y}.
-#' @param y A numerical, logical or a character vector whose elements will be checked whether they are also present in vector \code{y}.
-#' @return A logical vector of equal length as \code{x}, with element(s) not being present in \code{y} as TRUE.
-#' @seealso \code{\link{as.numeric}}, \code{\link{as.character}}, \code{\link{as.factor}} which this function wraps
+#' @param x A data structure whose elements will be checked whether they are also present in data structure \code{y}.
+#' @param y A data structure that will be checked whether elements from \code{x} are present in it.
+#' @return A logical vector of equal length as \code{x}, with element(s) not being present in \code{y} as TRUE. If \code{x} was a matrix, then the output corresponds to \code{x} converted to a vector.
 #' @export
 #' @examples
 #' # create some numeric vectors
