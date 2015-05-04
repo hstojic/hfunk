@@ -1,16 +1,16 @@
 Package: hfunk
 Type: Package
 Title: Useful R functions
-Version: 0.0.1
+Version: 0.0.2
 Date: 2014-11-06
 Author: Hrvoje Stojic <hrvoje.stojic@gmail.com>
 Maintainer: Hrvoje Stojic <hrvoje.stojic@gmail.com>
 Description: Collection of useful R functions for everyday data analysis and
     modeling.
 Depends:
-    R (>= 2.15.0)
-Imports:
+    R (>= 2.15.0),
     assertthat
+Suggests: testthat
 License: see LICENCE
 URL: http://github.com/hstojic/hfunk/
 BugReports: https://github.com/hstojic/hfunk/issues
