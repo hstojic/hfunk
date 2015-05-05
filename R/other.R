@@ -1,4 +1,54 @@
 # ----------------------------------------------------------------------
+# Mod function. 
+# ----------------------------------------------------------------------
+#' Computes a mod statistic. 
+#' 
+#' A function for finding the most frequent element...
+#'
+#' @param x A numeric, logical or a character vector where the mod needs to be found.
+#' @param freq A logical that indicates whether frequency of elements in the mod should be returned as well. By default set to FALSE.
+#' @param ties A string that indicates how the ties should be broken. Possible values are: "unbroken" in which case ties are not broken and all of the tied elements are returned in the output, and "first" where only the first element is returned. By default set to "unbroken".
+#' @return A vector of the same class as \code{x}...
+#' @imports assertthat
+#' @export
+#' @examples
+#' # create some numeric vectors
+#' x <- c(1,1,1,2,2)
+#' y <- c(1,1,2,2)
+#'
+#' # no ties, with and without reporting frequency
+#' mod(x)
+#' mod(x, freq = TRUE)
+#'
+#' # ties, with and without reporting frequency
+#' mod(y)
+#' mod(y, freq = TRUE)
+
+mod <- function(x, freq = FALSE, ties = "unbroken") {
+
+    # extract a list of unique elements in x 
+    ux <- unique(x)
+    tab <- tabulate(match(x, ux))
+
+    # find which is the most frequent, depending on type of breaking ties
+    if (ties == "unbroken") {
+        mod <- ux[tab == max(tab)]
+    } else if (ties == "first") {
+        mod <- ux[which.max(tab)]
+    }
+    
+    # returning the mod, if freq=TRUE then also with number of elements in mod
+    if (freq) {
+        modFreq <- max(tab)
+        return(list(mod = mod, freq = modFreq))
+    } else {
+        return(mod)
+    }
+}
+
+
+
+# ----------------------------------------------------------------------
 # A shortcut for negation of the %in% operator. 
 # ----------------------------------------------------------------------
 #' A shortcut for negation of the %in% operator. 

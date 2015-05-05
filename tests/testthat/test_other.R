@@ -10,6 +10,52 @@
 
 
 # ----
+# mod function
+# ----
+
+context("mod function")
+
+
+test_that("mod w/o freq - numeric vector, no ties", {
+
+    # basic results
+    x <- c(1,1,1,2,2)
+    res <- mod(x)
+
+    expect_that( res, is_identical_to(1) )
+    expect_that( res, is_a("numerical") )
+    expect_that( length(res), is_identical_to(1) )
+})
+
+
+test_that("mod w/o freq - numeric vector, with ties", {
+
+    # basic results
+    x <- c(1,1,2,2)
+    res <- mod(x)
+
+    expect_that( res, is_identical_to(c(1,2)) )
+    expect_that( res, is_a("numerical") )
+    expect_that( length(res), is_identical_to(2) )
+})
+
+test_that("mod w freq - numeric vector, with ties", {
+
+    # basic results
+    x <- c(1,1,2,2)
+    res <- mod(x, freq = TRUE)
+
+    expect_that( res$mod, is_identical_to(c(1,2)) )
+    expect_that( res, is_a("list") )
+    expect_that( res$mod, is_a("numerical") )
+    expect_that( res$freq, is_a("numerical") )
+    expect_that( length(res$mod), is_identical_to(2) )
+    expect_that( length(res$freq), is_identical_to(1) )
+})
+
+
+
+# ----
 # %!in% operator
 # ----
 
