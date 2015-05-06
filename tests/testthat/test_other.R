@@ -28,6 +28,18 @@ test_that("mod w/o freq - numeric vector, no ties", {
 })
 
 
+test_that("mod w/o freq - numeric vector, no ties, with NA's", {
+
+    # should return 1 nevertheless
+    x <- c(1,1,1,2,2,NA,NA,NA,NA)
+    res <- mod(x)
+
+    expect_that( res, is_identical_to(1) )
+    expect_that( res, is_a("numerical") )
+    expect_that( length(res), is_identical_to(1) )
+})
+
+
 test_that("mod w/o freq - numeric vector, with ties", {
 
     # basic results
