@@ -10,13 +10,13 @@
 #' @param ties A string that indicates how the ties should be broken. Possible values are: "unbroken" in which case ties are not broken and all of the tied elements are returned in the output (in this case, if \code{freq} is set to TRUE, frequency output will be a scalar that indicates frequency of all tied elements), and "first" where only the first element is returned. By default set to "unbroken".
 #' @return If \code{freq} set to FALSE, the output is a vector of the same class as \code{x} with a single element, indicating the mod of the vector provided in \code{x}. If \code{freq} set to FALSE, the output is a list with first element being the mod and second element being the frequency of the mod.
 #' @param na.rm A logical that indicates whether NA elements should be removed or not. By default set to TRUE.
-#' @imports assertthat
+#' @import assertthat
 #' @export
 #' @examples
 #' # create some numeric vectors
 #' x <- c(1,1,1,2,2)
 #' y <- c(1,1,2,2)
-#'
+#' 
 #' # no ties, with and without reporting frequency
 #' mod(x)
 #' mod(x, freq = TRUE)
@@ -32,9 +32,9 @@ mod <- function(x, freq = FALSE, ties = "unbroken", na.rm = TRUE) {
     assert_that(is.logical(na.rm))
     assert_that(is.character(ties))
     assert_that(  # a num/char/logical vector
-        !is.matrix(logLikelihood),
-        !is.list(logLikelihood),
-        !is.data.frame(logLikelihood)
+        !is.matrix(x),
+        !is.list(x),
+        !is.data.frame(x)
     )
     
     # extract a list of unique elements in x 
@@ -100,6 +100,7 @@ mod <- function(x, freq = FALSE, ties = "unbroken", na.rm = TRUE) {
 #' @return The data frame \code{df} where each column has a class as specified 
 #' in \code{newClass}.
 #' @seealso \code{\link{as.numeric}}, \code{\link{as.character}}, \code{\link{as.factor}} which this function wraps
+#' @import assertthat
 #' @export
 #' @examples
 #' # check the classes of variables in mtcars dataset
