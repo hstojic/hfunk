@@ -3,12 +3,13 @@
 # ----------------------------------------------------------------------
 #' Computes a mod statistic. 
 #' 
-#' A function for finding the most frequent element...
+#' A function for finding the most frequent element in a vector and optionally its frequency. The intended use is not for estimating mod statistic, but for finding a mod in sequences where elements repeat themselves often. Hence, it should not be used with vectors of real numbers, as such elements are likely to be unique. Note that the function is not capable of breaking ties randomly.
 #'
 #' @param x A numeric, logical or a character vector where the mod needs to be found.
 #' @param freq A logical that indicates whether frequency of elements in the mod should be returned as well. By default set to FALSE.
-#' @param ties A string that indicates how the ties should be broken. Possible values are: "unbroken" in which case ties are not broken and all of the tied elements are returned in the output, and "first" where only the first element is returned. By default set to "unbroken".
-#' @return A vector of the same class as \code{x}...
+#' @param ties A string that indicates how the ties should be broken. Possible values are: "unbroken" in which case ties are not broken and all of the tied elements are returned in the output (in this case, if \code{freq} is set to TRUE, frequency output will be a scalar that indicates frequency of all tied elements), and "first" where only the first element is returned. By default set to "unbroken".
+#' @return If \code{freq} set to FALSE, the output is a vector of the same class as \code{x} with a single element, indicating the mod of the vector provided in \code{x}. If \code{freq} set to FALSE, the output is a list with first element being the mod and second element being the frequency of the mod.
+#' @param na.rm A logical that indicates whether NA elements should be removed or not. By default set to TRUE.
 #' @imports assertthat
 #' @export
 #' @examples
@@ -24,9 +25,20 @@
 #' mod(y)
 #' mod(y, freq = TRUE)
 
-mod <- function(x, freq = FALSE, ties = "unbroken") {
-
+mod <- function(x, freq = FALSE, ties = "unbroken", na.rm = TRUE) {
+    # basic checks of the inputs
+    not_empty(x)
+    assert_that(is.logical(freq))
+    assert_that(is.logical(na.rm))
+    assert_that(is.character(ties))
+    assert_that(  # a num/char/logical vector
+        !is.matrix(logLikelihood),
+        !is.list(logLikelihood),
+        !is.data.frame(logLikelihood)
+    )
+    
     # extract a list of unique elements in x 
+    if (na.rm) x <- x[!is.na(x)]
     ux <- unique(x)
     tab <- tabulate(match(x, ux))
 
