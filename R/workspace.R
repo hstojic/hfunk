@@ -7,6 +7,7 @@
 #'
 #' @param n A scalar indicating how many objects to print in the output. By default 20 objects will be printed in decreasing order according to the memory they require.
 #' @return A data frame with objects as rows and details about them in five variables: type, size, nicely formatted size, number of rows and number of columns in the object.
+#' @seealso \code{\link{ls}}
 #' @import assertthat
 #' @export
 #' @examples

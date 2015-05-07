@@ -8,8 +8,8 @@
 #' @param x A numeric, logical or a character vector where the mod needs to be found.
 #' @param freq A logical that indicates whether frequency of elements in the mod should be returned as well. By default set to FALSE.
 #' @param ties A string that indicates how the ties should be broken. Possible values are: "unbroken" in which case ties are not broken and all of the tied elements are returned in the output (in this case, if \code{freq} is set to TRUE, frequency output will be a scalar that indicates frequency of all tied elements), and "first" where only the first element is returned. By default set to "unbroken".
-#' @return If \code{freq} set to FALSE, the output is a vector of the same class as \code{x} with a single element, indicating the mod of the vector provided in \code{x}. If \code{freq} set to FALSE, the output is a list with first element being the mod and second element being the frequency of the mod.
 #' @param na.rm A logical that indicates whether NA elements should be removed or not. By default set to TRUE.
+#' @return If \code{freq} set to FALSE, the output is a vector of the same class as \code{x} with a single element, indicating the mod of the vector provided in \code{x}. If \code{freq} set to FALSE, the output is a list with first element being the mod and second element being the frequency of the mod.
 #' @import assertthat
 #' @export
 #' @examples
@@ -68,6 +68,7 @@ mod <- function(x, freq = FALSE, ties = "unbroken", na.rm = TRUE) {
 #'
 #' @param x A character vector with a single element that contains an expression.
 #' @return Result of an evaluation of the expression contained in the string.
+#' @seealso \code{\link{eval}}, \code{\link{parse}}
 #' @import assertthat
 #' @export
 #' @examples
