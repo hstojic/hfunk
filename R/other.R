@@ -59,6 +59,29 @@ mod <- function(x, freq = FALSE, ties = "unbroken", na.rm = TRUE) {
 }
 
 
+# ----------------------------------------------------------------------
+# A shortcut for evaluating a string. 
+# ----------------------------------------------------------------------
+#' A shortcut for evaluating an expression in a string format. 
+#' 
+#' To evaluate an expression such as "1+1", we need to apply two function iteratively. streaval() function is a simple wrapper around eval() and parse() functions.
+#'
+#' @param x A character vector with a single element that contains an expression.
+#' @return Result of an evaluation of the expression contained in the string.
+#' @import assertthat
+#' @export
+#' @examples
+#' # create some expression
+#' x <- "1+2"
+#'
+#' # when evaluated it should produce 3
+#' streval(x)
+#'
+#' # streval() function has the same output as:
+#' eval(parse(text=x))
+
+streval <- function(x) {return(eval(parse(text=x)))}
+
 
 # ----------------------------------------------------------------------
 # A shortcut for negation of the %in% operator. 
