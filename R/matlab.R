@@ -1,4 +1,44 @@
 # ----------------------------------------------------------------------
+# Simple matrix wrapper for random numbers
+# ----------------------------------------------------------------------
+#' Simple matrix wrapper for random numbers.  
+#' 
+#' A simple wrapper for ....
+#'
+#' @param distribution A matrix.
+#' @param nrow A scalar indicating the desired number of rows.
+#' @param ncol A scalar indicating the desired number of columns.
+#' @param byrow A logical value, if TRUE (the default) the matrix is filled by
+          rows, otherwise the matrix is filled by columns. 
+#' @param ... Additional arguments to be passed to or from methods.
+#' @return A matrix ....
+#' @seealso \code{\link{matrix}}, \code{\link{rnorm}}, \code{\link{runif}} etc.
+#' @import assertthat
+#' @export
+#' @examples
+#' # create a 2 by 2 matrix with numbers randomly drawn from uniform distribution
+#' rmat(runif, 2, 2)
+#' 
+#' # same, but now we pass on additional arguments to runif 
+#' rmat(runif, 2, 2, min=10, max=20)
+
+rmat <- function(distribution, nrow, ncol, byrow=TRUE, ...) {
+    # basic checks
+    assert_that(is.scalar(ncol)) 
+    assert_that(is.scalar(nrow)) 
+    assert_that(is.logical(byrow))
+
+    # the matrix with random numbers
+    res <- matrix(distribution(ncol*nrow,...), 
+                  ncol=ncol, nrow=nrow, 
+                  byrow=byrow)
+    return(res)
+}
+
+
+
+
+# ----------------------------------------------------------------------
 # Rep for matrices
 # ----------------------------------------------------------------------
 #' Replicate matrices.  
@@ -10,11 +50,12 @@
 #' @param ncol A scalar that determines how many times \code{mat} will be replicated and added as new columns, each of the size of \code{mat}. Default value is 1.
 #' @return A matrix where \code{mat} is copied \code{ncol} x \code{nrow} times and added as new columns as specified in \code{ncol} and new rows as specified in \code{nrow}.
 #' @seealso \code{\link{matrix}}
-
-#'
 #' @export
 #' @examples
-#' mat <- matrix(c(1,2,3,4), 2,2)
+#' # create a simple matrix
+#' mat <- matrix(1:4, 2, 2)
+#' 
+#' # now we take it as a block and replicate it to fill a 2x3 block matrix 
 #' repmat(mat, 2, 3)
 
 repmat = function(mat, nrow=1, ncol=1) {
@@ -39,7 +80,6 @@ repmat = function(mat, nrow=1, ncol=1) {
 #' @param dim A scalar with value of either 1 or 2. Value 1 will copy vector \code{vec} as rows, while value 2 will copy it as columns.
 #' @return A matrix with \code{length(vec)} rows and \code{nrep} columns if \code{dim==2} and vice versa if \code{dim==1}.
 #' @seealso \code{\link{rep}}
-#'
 #' @export
 #' @examples
 #' vec <- c(1,2,3,4)
