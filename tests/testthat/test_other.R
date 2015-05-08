@@ -10,6 +10,26 @@
 
 
 # ----
+# streval function
+# ----
+
+context("streval function")
+
+
+test_that("streval - simple addition", {
+
+    # basic results
+    x <- "1+2"
+    res <- streval(x)
+    check <- eval(parse(text=x))
+
+    expect_that( res, is_identical_to(check) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(1L) )
+})
+
+
+# ----
 # mod function
 # ----
 
