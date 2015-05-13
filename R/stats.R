@@ -6,6 +6,9 @@
 #' A function for rescaling a vector of integers or real numbers to (0,1) range. Element in the original vector with the minimum value will be transformed to 0, while the element with the maximum value will be transformed to 1. All other elements will be rescaled proportionally.
 #'
 #' @param x A numeric vector where numbers need to be rescaled.
+#' @param lower Desired minimum value, by deafult set to 0.
+#' @param upper Desired maximum value, by deafult set to 1.
+#' @param na.rm A logical that indicates whether NA elements should be removed from the output or not. By default set to FALSE. Note that, if it is set to FALSE, the rescale will still remove NA's to do the computations, but it will simply leave the NA elements in the resulting vector.
 #' @return A numeric vector with rescaled elements from \code{x}.
 #' @import assertthat
 #' @export
@@ -20,9 +23,12 @@
 #' rescale(x, 1, 10)
 
 
-rescale <- function(x) { 
+rescale <- function(x, lower=0, upper=1, na.rm = FALSE) { 
     # basic check of the input
     not_empty(x)
+    assert_that(is.number(lower))
+    assert_that(is.number(upper))
+    assert_that(is.logical(na.rm))
     assert_that(  # a numeric vector
         is.numeric(x),
         !is.matrix(x),
@@ -30,9 +36,15 @@ rescale <- function(x) {
         !is.data.frame(x)
     )
 
+    # extract a list of nonNA elements in x 
+    if (na.rm) x <- x[!is.na(x)]
+
     # function
     rescaled <- (x - min(x, na.rm=TRUE)) / 
                 (max(x,na.rm=TRUE) - min(x, na.rm=TRUE))
+    if (lower != 0 && upper != 1) {
+        rescaled <- lower + (upper - lower)*rescaled
+    }
     return(rescaled)
 }
 
