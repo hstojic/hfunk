@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------
 #' Rescaling a numerical vector. 
 #' 
-#' A function for rescaling a vector of integers or real numbers to (0,1) range. Element in the original vector with the minimum value will be transformed to 0, while the element with the maximum value will be transformed to 1. All other elements will be rescaled proportionally.
+#' A function for rescaling a vector of integers or real numbers to an arbitrary interval. Element in the original vector with the minimum value will be transformed to a number deteremined by  \code{lower} argument (zero by default), while the element with the maximum value will be transformed to  a number deteremined by \code{upper} argument (one by default). All other elements will be rescaled proportionally.
 #'
 #' @param x A numeric vector where numbers need to be rescaled.
 #' @param lower Desired minimum value, by deafult set to 0.
@@ -19,8 +19,8 @@
 #' # min element will be transformed to 0 and max element to 1
 #' rescale(x)
 #'
-#' # ties, with and without reporting frequency
-#' rescale(x, 1, 10)
+#' # arbitrary lower and upper value
+#' rescale(x, 20, 100)
 
 
 rescale <- function(x, lower=0, upper=1, na.rm = FALSE) { 
@@ -42,7 +42,7 @@ rescale <- function(x, lower=0, upper=1, na.rm = FALSE) {
     # function
     rescaled <- (x - min(x, na.rm=TRUE)) / 
                 (max(x,na.rm=TRUE) - min(x, na.rm=TRUE))
-    if (lower != 0 && upper != 1) {
+    if (lower != 0 | upper != 1) {
         rescaled <- lower + (upper - lower)*rescaled
     }
     return(rescaled)

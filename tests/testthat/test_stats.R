@@ -9,9 +9,29 @@
 #library(testthat)
 
 
-# ----
+# -------------------------------------------------------------------------
 # Rescale function
-# ----
+# -------------------------------------------------------------------------
+
+context("tlag function")
+
+
+test_that("rescale - default, to 0,1", {
+
+    x <- 10:20
+    res <- rescale(x)
+
+    expect_that( min(res), equals(0) )
+    expect_that( max(res), equals(1) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
+
+
+
+# -------------------------------------------------------------------------
+# Rescale function
+# -------------------------------------------------------------------------
 
 context("rescale function")
 
@@ -28,13 +48,73 @@ test_that("rescale - default, to 0,1", {
 })
 
 
-test_that("rescale - negative numbers, to 0,1", {
+test_that("rescale - mixed numbers, to 20,100", {
 
     x <- -10:10
     res <- rescale(x, 20, 100)
 
     expect_that( min(res), equals(20) )
     expect_that( max(res), equals(100) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
+
+
+test_that("rescale - negative numbers, to 20,100", {
+
+    x <- -20:-10
+    res <- rescale(x, 20, 100)
+
+    expect_that( min(res), equals(20) )
+    expect_that( max(res), equals(100) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
+
+
+test_that("rescale - negative numbers, to mixed interval", {
+
+    x <- -20:-10
+    res <- rescale(x, -1, 1)
+
+    expect_that( min(res), equals(-1) )
+    expect_that( max(res), equals(1) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
+
+
+test_that("rescale - positive numbers, to negative interval", {
+
+    x <- 10:20
+    res <- rescale(x, -100, -1)
+
+    expect_that( min(res), equals(-100) )
+    expect_that( max(res), equals(-1) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
+
+
+test_that("rescale - positive numbers, to mixed interval", {
+
+    x <- 10:20
+    res <- rescale(x, -10, 10)
+
+    expect_that( min(res), equals(-10) )
+    expect_that( max(res), equals(10) )
+    expect_that( res, is_a("numeric") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
+
+
+test_that("rescale - mixed numbers, to mixed interval", {
+
+    x <- -10:20
+    res <- rescale(x, -10, 10)
+
+    expect_that( min(res), equals(-10) )
+    expect_that( max(res), equals(10) )
     expect_that( res, is_a("numeric") )
     expect_that( length(res), is_identical_to(length(x)) )
 })
@@ -85,9 +165,11 @@ test_that("rescale - inputs that should throw error", {
     expect_error( rescale(data.frame(1,2,2)) )
 })
 
-# ----
+
+
+# -------------------------------------------------------------------------
 # mod function
-# ----
+# -------------------------------------------------------------------------
 
 context("mod function")
 
