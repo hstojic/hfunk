@@ -57,28 +57,41 @@ rescale <- function(x, lower=0, upper=1, na.rm = FALSE) {
 #' 
 #' Creates a lagged variable of a numerical vector without requiring it to be of time series class.
 #'
-#' @param x A numeric vector that needs to be lagged.
-#' @return A numeric vector of the same length as \code{x}.
+#' @param x A numeric, character or logical vector that needs to be lagged.
+#' @param d The number of lags (in units of observations). By default set to 1.
+#' @param na.rm A logical that indicates whether NA elements should be removed from the output or not. By default set to FALSE. 
+#' @return A numeric vector of the same length as \code{x} if \code{na.rm} is set to FALSE, otherwise it is of the same length as \code{x} without NA elements.
 #' @import assertthat
 #' @export
 #' @examples
-#' # create some numeric vectors
-#' x <- c(1,1,1,2,2)
-#' y <- c(1,1,2,2)
+#' # create some numeric vector
+#' x <- 1:10
 #' 
-#' # no ties, with and without reporting frequency
-#' mod(x)
-#' mod(x, freq = TRUE)
-#'
-#' # ties, with and without reporting frequency
-#' mod(y)
-#' mod(y, freq = TRUE)
+#' # lag t-1, without removing the resulting NA elements and with removal
+#' tslag(x, 1, FALSE)
+#' tslag(x, 1, TRUE)
 
-tslag <- function(x, d = 1)
-  {
+
+tlag <- function(x, d = 1, na.rm = FALSE) {
+    # basic check of the input
+    not_empty(x)
+    assert_that(is.number(d))
+    assert_that(is.logical(na.rm))
+    assert_that(  # a numeric vector
+        !is.matrix(x),
+        !is.list(x),
+        !is.data.frame(x)
+    )
+    
     x <- as.vector(x)
     n <- length(x)
-    c(rep(NA,d),x)[1:n]
+    if (na.rm) {
+        res <- x[1:(n-d)]
+        return(res)
+    } else {
+        res <- c(rep(NA, d), x)[1:n]
+        return(res)
+    }
   }
 
 

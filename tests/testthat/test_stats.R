@@ -10,23 +10,37 @@
 
 
 # -------------------------------------------------------------------------
-# Rescale function
+# Tlag function
 # -------------------------------------------------------------------------
 
 context("tlag function")
 
 
-test_that("rescale - default, to 0,1", {
+test_that("tlag - default, numeric", {
 
-    x <- 10:20
-    res <- rescale(x)
+    x <- 1:4
+    d <- 1
+    res <- tlag(x, d=d, na.rm=FALSE)
 
-    expect_that( min(res), equals(0) )
-    expect_that( max(res), equals(1) )
-    expect_that( res, is_a("numeric") )
+    expect_that( sum(is.na(res)), equals(d) )
+    expect_that( min(res, na.rm=TRUE), equals(min(x)) )
+    expect_that( max(res, na.rm=TRUE), equals(max(x)-d) )
+    expect_that( res, is_a("integer") )
     expect_that( length(res), is_identical_to(length(x)) )
 })
 
+
+
+test_that("tlag - default, character", {
+
+    x <- LETTERS[1:4]
+    d <- 1
+    res <- tlag(x, d=d, na.rm=FALSE)
+
+    expect_that( sum(is.na(res)), equals(d) )
+    expect_that( res, is_a("character") )
+    expect_that( length(res), is_identical_to(length(x)) )
+})
 
 
 # -------------------------------------------------------------------------
