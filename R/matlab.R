@@ -8,8 +8,7 @@
 #' @param distribution A distribution available in R that should generate the numbers for filling out the matrix, e.g. \code{\link{rnorm}} or code{\link{runif}}.
 #' @param nrow A scalar indicating the desired number of rows.
 #' @param ncol A scalar indicating the desired number of columns.
-#' @param byrow A logical value, if TRUE (the default) the matrix is filled by
-          rows, otherwise the matrix is filled by columns. 
+#' @param byrow A logical value, if TRUE (the default) the matrix is filled by rows, otherwise the matrix is filled by columns. 
 #' @param ... Additional arguments to be passed to or from methods.
 #' @return A matrix with \code{nrow} rows and \code{ncol} columns, filled with numbers generated from \code{distribution}.
 #' @seealso \code{\link{matrix}}, \code{\link{rnorm}}, \code{\link{runif}} etc.
