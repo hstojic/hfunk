@@ -1,6 +1,38 @@
 # ----------------------------------------------------------------------
 # matrix square roots. 
 # ----------------------------------------------------------------------
+#' Verify whether a matrix is a triangular matrix. 
+#' 
+#' @param L A numeric matrix.
+#' @param method Function that extracts either a lower or upper triangular part of the matrix.
+#' @param tolerance Tolerance for determining the differences between the elements of the matrix.
+#' @return A logical value, whether L is a triangular matrix or not.
+#' @export
+#' @examples
+#' # create a non-triangular matrix
+#' mat <- matrix(runif(9), 3, 3)
+#' 
+#' # is it a triangular matrix?
+#' is.tri(mat)
+
+
+is.tri <- function(L, method = lower.tri, tolerance = 1e-8) {
+    
+    # extract the triangular part
+    triPart <- L[method(L)]
+
+    # verify if all elements are close to zero 
+    if (abs(max(triPart) - min(triPart)) < tolerance) {
+        return(TRUE)
+    } else {
+        return(FALSE)
+    }
+}
+
+
+# ----------------------------------------------------------------------
+# matrix square roots. 
+# ----------------------------------------------------------------------
 #' Computes square root of a matrix. 
 #' 
 #' A function for computing the square roots of a quadratic matrix using the Denman-Beavers algorithm. note that convergence is not guaranteed, even for matrices that do have square roots.
