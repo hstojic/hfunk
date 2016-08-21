@@ -1,4 +1,31 @@
 # ----------------------------------------------------------------------
+# Computing frequencies 
+# ----------------------------------------------------------------------
+#' Computing frequencies of elements in a vector. 
+#' 
+#' Computes number of occurrences of specified elements in a vector. This function behaves slightly different than R base function \code{\link{table}}, since we specify the elements, frequency of elements that were not found will be reported as zero. See also http://stackoverflow.com/questions/1923273/counting-the-number-of-elements-with-the-values-of-x-in-a-vector
+#'
+#' @param x A numeric vector that we wish to check how many times elements specified in \code{elts} appear.
+#' @param elts A vector with elements that we wish to count in vector \code{x}.
+#' @return A numeric vector of the same length as \code{elts}, with names elements.
+#' @seealso \code{\link{table}} which is very similar
+#' @export
+#' @examples
+#' # create some test data
+#' x <- rep(1:3, 4)
+#' elts <- c(1, 2, 4)
+#'
+#' get the counts of specified elements 
+#' freq(x, elts)
+
+freq <- function(x, elts) {
+    res <- sapply(elts, function(el) sum(x == el))
+    names(res) <- elts
+    return(res)
+}
+
+
+# ----------------------------------------------------------------------
 # Rescaling a vector of data. 
 # ----------------------------------------------------------------------
 #' Rescaling a numerical vector. 
