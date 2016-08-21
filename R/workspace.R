@@ -18,23 +18,32 @@
 #' # inspect the objects in the memory and their details
 #' lsos()
 
-
-lsos <- function(..., n = 20) {
+lsos <- function(n = 20) {
     # basic assertions
     assert_that(is.scalar(n))
     # output
-    .ls_objects(..., order_by = "Size", decreasing = TRUE, head = TRUE, n = n)
+    .ls_objects(order_by = "Size", decreasing = TRUE, head = TRUE, n = n)
 }
 
 
 # ----
 # internal function for lsos()
 # ----
+#' A nicely formatted listing of objects in the R working memory. 
+#' 
+#' An internal function for providing a summary of objects present in the working environment of the R session. See also: http://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session.
+#'
+#' @param pos A scalar indicating the position argument to ls() function.
+#' @param pattern A regular expression argument to ls() function.
+#' @param order_by Variable name to order the output by.
+#' @param decreasing A logical value, when ordered by some variable, will it be in decreasing or increasing order.
+#' @param head A logical value, whether to print out only first \code{n} rows.
+#' @param n A scalar indicating how many objects to print in the output. 
+#' @return A data frame with objects as rows and details about them in five variables: type, size, nicely formatted size, number of rows and number of columns in the object.
+#' @importFrom utils capture.output object.size
 
-# taken from:
-# http://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session
 .ls_objects <- function (pos = 1, pattern, order_by,
-                        decreasing = FALSE, head = FALSE, n = 5) {
+                         decreasing = FALSE, head = FALSE, n = 5) {
     
     napply <- function(names, fn) sapply(names, function(x)
                                          fn(get(x, pos = pos)))
@@ -43,7 +52,7 @@ lsos <- function(..., n = 20) {
     obj_mode <- napply(names, mode)
     obj_type <- ifelse(is.na(obj_class), obj_mode, obj_class)
     obj_prettysize <- napply(names, function(x) {
-                           capture.output(print(object.size(x), units = "auto")) })
+        capture.output(print(object.size(x), units = "auto")) })
     obj_size <- napply(names, object.size)
     obj_dim <- t(napply(names, function(x)
                         as.numeric(dim(x))[1:2]))
@@ -53,7 +62,6 @@ lsos <- function(..., n = 20) {
     names(out) <- c("Type", "Size", "PrettySize", "Rows", "Columns")
     if (!missing(order_by))
         out <- out[order(out[[order_by]], decreasing=decreasing), ]
-    if (head)
-        out <- head(out, n)
+    if (head) out <- head(out, n)
     return(out)
 }
