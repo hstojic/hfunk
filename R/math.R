@@ -1,4 +1,42 @@
 # ----------------------------------------------------------------------
+# Adding two vectors. 
+# ----------------------------------------------------------------------
+#' Adding two vectors with special treatment of NA's. 
+#' 
+#' Addition of two vectors that will ignore NA's if one of the two numbers is NA, but will return NA if both are NA.
+#'
+#' @param x A numeric vector.
+#' @param y A numeric vector.
+#' @return A numeric vector of the same length as \code{x} and \code{y}.
+#' @export
+#' @examples
+#' # create some vectors
+#' x <- c(1,0,NA)
+#' y <- c(1,NA,1)
+#' z <- c(1,2,NA)
+#'
+#' # first addition will ignore NA's while second will produce NA
+#' vecSum(x, y)
+#' vecSum(x, z)
+
+vecSum <- function(x, y) {
+
+    stopifnot(length(x) == length(y), is.numeric(x), is.numeric(y))
+    xna <- which(is.na(x))
+    yna <- which(is.na(y))
+
+    if (length(xna) > 0 && length(yna) > 0 && all(xna == yna)) {
+        res <- x + y
+    } else {
+        x[xna] <- 0
+        y[yna] <- 0
+        res <- x + y
+    }
+    return(res)
+}
+
+
+# ----------------------------------------------------------------------
 # matrix square roots. 
 # ----------------------------------------------------------------------
 #' Verify whether a matrix is a triangular matrix. 
