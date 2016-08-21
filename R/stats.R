@@ -15,7 +15,7 @@
 #' x <- rep(1:3, 4)
 #' elts <- c(1, 2, 4)
 #'
-#' get the counts of specified elements 
+#' # get the counts of specified elements 
 #' freq(x, elts)
 
 freq <- function(x, elts) {
@@ -95,8 +95,8 @@ rescale <- function(x, lower=0, upper=1, na.rm = FALSE) {
 #' x <- 1:10
 #' 
 #' # lag t-1, without removing the resulting NA elements and with removal
-#' tslag(x, 1, FALSE)
-#' tslag(x, 1, TRUE)
+#' tlag(x, 1, FALSE)
+#' tlag(x, 1, TRUE)
 
 
 tlag <- function(x, d = 1, na.rm = FALSE) {
