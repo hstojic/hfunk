@@ -36,70 +36,6 @@ idxMax <- function(x, tol = 1e-16) {
 
 
 # ----------------------------------------------------------------------
-# A shortcut for simultaneous addition and assignment. 
-# ----------------------------------------------------------------------
-#' A shortcut for simultaneous addition and assignment. 
-#' 
-#' Operation that exists in many other languages, like Python or C++. Shortens the syntax for operations where we repeatedly add new vectors to an initial vector - often used in loops to accrue results of calculations. 
-#'
-#' @param x A numeric vector.
-#' @param y A numeric vector.
-#' @return A numeric vector where each element is a sum of elements in vector \code{x} and \code{y} at the same position.
-# #' @export
-#' @examples
-#' # create some numeric vectors
-#' x <- 1:4
-#' y <- 3:6
-#' z <- c(1:3,NA)
-#'
-#' # standard form
-#' (x <- x + y)
-#'
-#' # new abbreviated format
-#' x <- 1:4
-#' x ++ y 
-#' x
-#' 
-#' Treatment of NA's
-#' y ++ z
-#' y
-
-`++` <- function(x, y) x <- x + y
-
-
-# ----------------------------------------------------------------------
-# A shortcut for simultaneous subtraction and assignment. 
-# ----------------------------------------------------------------------
-#' A shortcut for simultaneous subtraction and assignment. 
-#' 
-#' Operation that exists in many other languages, like Python or C++. Shortens the syntax for operations where we repeatedly add new vectors to an initial vector - often used in loops to accrue results of calculations. 
-#'
-#' @param x A numeric vector.
-#' @param y A numeric vector.
-#' @return A numeric vector where each element is a sum of elements in vector \code{x} and \code{y} at the same position.
-# #' @export
-#' @examples
-#' # create some numeric vectors
-#' x <- 1:4
-#' y <- 3:6
-#' z <- c(1:3,NA)
-#'
-#' # standard form
-#' (x <- x + y)
-#'
-#' # new abbreviated format
-#' x <- 1:4
-#' x ++ y 
-#' x
-#' 
-#' Treatment of NA's
-#' y ++ z
-#' y
-
-`--` <- function(x, y) x <- x -- y
-
-
-# ----------------------------------------------------------------------
 # Testing whether all elements in a vector are equal. 
 # ----------------------------------------------------------------------
 #' Testing whether all elements in a vector are equal. 
@@ -117,53 +53,17 @@ idxMax <- function(x, tol = 1e-16) {
 #' z <- c(1,1,1)
 #' w <- c(1,1,1.01)
 #'
-#' # first addition will ignore NA's while second will produce NA
+#' # these produce logical values
 #' equal(x)
-#' equal(y)
 #' equal(z)
 #' equal(w, 0.1)
+#' 
+#' # running this will produce an error
+#' # equal(y)
 
 equal <- function(x, tol = 1e-16) {
     stopifnot(is.numeric(x), is.numeric(tol), all(!is.na(x)))
     abs(max(x) - min(x)) < tol
-}
-
-
-# ----------------------------------------------------------------------
-# Adding two vectors. 
-# ----------------------------------------------------------------------
-#' Adding two vectors with special treatment of NA's. 
-#' 
-#' Addition of two vectors that will ignore NA's if one of the two numbers is NA, but will return NA if both are NA.
-#'
-#' @param x A numeric vector.
-#' @param y A numeric vector.
-#' @return A numeric vector of the same length as \code{x} and \code{y}.
-#' @export
-#' @examples
-#' # create some vectors
-#' x <- c(1,0,NA)
-#' y <- c(1,NA,1)
-#' z <- c(1,2,NA)
-#'
-#' # first addition will ignore NA's while second will produce NA
-#' add(x, y)
-#' add(x, z)
-
-add <- function(x, y) {
-
-    stopifnot(length(x) == length(y), is.numeric(x), is.numeric(y))
-    xna <- which(is.na(x))
-    yna <- which(is.na(y))
-
-    if (length(xna) > 0 && length(yna) > 0 && all(xna == yna)) {
-        res <- x + y
-    } else {
-        x[xna] <- 0
-        y[yna] <- 0
-        res <- x + y
-    }
-    return(res)
 }
 
 
@@ -197,7 +97,7 @@ streval <- function(x) {return(eval(parse(text=x)))}
 # ----------------------------------------------------------------------
 #' A shortcut for negation of the \%in\% operator. 
 #' 
-#' Using a negation of \%in\% operator in the standard format produces less readable code. More natural way of using negation in this context would be to prepend 'in' with standard negation symbol, '!', which then results in using shorter and more readable 'x \%!in\% y' instead of '!(x \%in\% y)'.
+#' Using a negation of \%in\% operator in the standard format produces less readable code. More natural way of using negation in this context would be to prepend 'in' with standard negation symbol, '!', which then results in using shorter and more readable 'x \%!in\% y' instead of '!(x \%in\% y)'. However, since R does not allow using '!' in function names, we use a special keyword 'nin' instead of '!in'.
 #'
 #' @param x A data structure whose elements will be checked whether they are also present in data structure \code{y}.
 #' @param y A data structure that will be checked whether elements from \code{x} are present in it.
@@ -212,10 +112,10 @@ streval <- function(x) {return(eval(parse(text=x)))}
 #' results <- !(x %in% y)
 #'
 #' # new abbreviated format
-#' resultsNew <- x %!in% y
+#' resultsNew <- x %nin% y
 #' all(results == resultsNew)
 
-'%!in%' <- function(x, y) !('%in%'(x, y))
+'%nin%' <- function(x, y) !('%in%'(x, y))
 
 
 # ----------------------------------------------------------------------
